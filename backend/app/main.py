@@ -1,61 +1,90 @@
+import os
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
-from fastapi import FastAPI, File, UploadFile
+from dotenv import load_dotenv
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
 
+from app.models import ProcessedTextResponse, TextInput
+from app.services.ai_engine import ai_engine
+from app.utils.processor import clean_text, download_nltk_resources, process_uploaded_file
 
-class TextInput(BaseModel):
-    text: str = Field(..., min_length=1)
+load_dotenv()
 
-
-class ProcessedTextResponse(BaseModel):
-    original_text: str
-    cleaned_text: str
+CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    download_nltk_resources()
     yield
 
 
 app = FastAPI(
-    title="MailFlow API",
+    title="Email Processing API",
     description="API para processamento e classificação de emails",
-    version="1.0.0",
+    version="2.0.0",
     lifespan=lifespan
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
+def parse_ai_error(error: RuntimeError) -> tuple[int, dict]:
+    msg = str(error)
+    if "RATE_LIMIT" in msg:
+        return 429, {"error_code": "RATE_LIMIT", "message": "Limite de requisições excedido.", "retry_after": 60}
+    elif "AUTH_ERROR" in msg:
+        return 401, {"error_code": "AUTH_ERROR", "message": "Erro de autenticação com a API."}
+    elif "CONNECTION_ERROR" in msg:
+        return 503, {"error_code": "CONNECTION_ERROR", "message": "Falha de conexão com a API."}
+    else:
+        return 500, {"error_code": "AI_ERROR", "message": "Erro ao processar classificação."}
+
+
 @app.get("/")
-async def root():
-    return {"status": "ok", "message": "MailFlow API v1.0.0"}
+async def root() -> dict[str, str]:
+    return {"status": "ok", "message": "Email Processing API v2.0.0"}
 
 
 @app.get("/health")
-async def health():
+async def health() -> dict[str, str]:
     return {"status": "healthy"}
 
 
 @app.post("/process/text", response_model=ProcessedTextResponse)
-async def process_text(input_data: TextInput):
-    return ProcessedTextResponse(
-        original_text=input_data.text,
-        cleaned_text=input_data.text.lower().strip()
-    )
+async def process_text(input_data: TextInput) -> ProcessedTextResponse:
+    nlp_result = clean_text(input_data.text)
+
+    try:
+        analysis = await ai_engine.classify_email(nlp_result.cleaned_text)
+    except RuntimeError as e:
+        status_code, detail = parse_ai_error(e)
+        raise HTTPException(status_code=status_code, detail=detail)
+
+    return ProcessedTextResponse(original_text=nlp_result.original_text, analysis=analysis)
 
 
-@app.post("/process/file")
-async def process_file(file: UploadFile = File(...)):
-    content = await file.read()
-    text = content.decode("utf-8")
-    return {"filename": file.filename, "text": text[:100]}
+@app.post("/process/file", response_model=ProcessedTextResponse)
+async def process_file(file: UploadFile = File(...)) -> ProcessedTextResponse:
+    try:
+        extracted_text = await process_uploaded_file(file)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail={"error_code": "INVALID_FILE", "message": str(e)})
+
+    nlp_result = clean_text(extracted_text)
+
+    try:
+        analysis = await ai_engine.classify_email(nlp_result.cleaned_text)
+    except RuntimeError as e:
+        status_code, detail = parse_ai_error(e)
+        raise HTTPException(status_code=status_code, detail=detail)
+
+    return ProcessedTextResponse(original_text=nlp_result.original_text, analysis=analysis)
