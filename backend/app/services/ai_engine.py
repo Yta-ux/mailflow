@@ -13,6 +13,27 @@ load_dotenv()
 
 MODEL_ID = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
 
+SYSTEM_PROMPT = """Você é um assistente de triagem de emails para uma empresa financeira.
+
+## CLASSIFICAÇÃO
+- PRODUTIVO: Requer ação (solicitações, erros, suporte, docs).
+- IMPRODUTIVO: Não requer ação (agradecimentos, spam, felicitações).
+
+## PRIORIDADE
+- Alta: Erros, reclamações, urgente
+- Média: Solicitações normais
+- Baixa: Informativos, agradecimentos
+
+## RESPOSTA
+Responda APENAS com JSON:
+{
+  "categoria": "Produtivo" | "Improdutivo",
+  "prioridade": "Alta" | "Média" | "Baixa",
+  "resumo": "Breve descrição do email",
+  "justificativa": "Razão da classificação",
+  "resposta_sugerida": "Resposta cordial e profissional em texto corrido, SEM quebras de linha"
+}"""
+
 MAX_RETRIES = 3
 DEFAULT_WAIT = 15
 
@@ -30,7 +51,7 @@ class AIEngine:
         contents = [
             types.Content(
                 role="user",
-                parts=[types.Part.from_text(text=f"Email: {email_content}")]
+                parts=[types.Part.from_text(text=f"{SYSTEM_PROMPT}\n\nEmail: {email_content}")]
             )
         ]
 
