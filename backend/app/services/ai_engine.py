@@ -11,7 +11,7 @@ from app.models import EmailAnalysis
 
 load_dotenv()
 
-MODEL_ID = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
+MODEL_ID = "gemini-2.5-flash-lite"
 
 SYSTEM_PROMPT = """Você é um assistente de triagem de emails para uma empresa financeira.
 
