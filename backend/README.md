@@ -45,7 +45,7 @@ Para executar a API, siga os passos:
 4. **Configure as Variáveis de Ambiente**
    Crie um arquivo `.env` na raiz do backend com sua chave da API:
    ```env
-   GEMINI_API_KEY=sua_chave_aqui
+   GOOGLE_API_KEY=sua_chave_aqui
    ```
 
 5. **Inicie o servidor**
