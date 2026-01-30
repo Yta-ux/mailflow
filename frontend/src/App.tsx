@@ -5,7 +5,7 @@ import { EmailAnalyzer } from "@/components/EmailAnalyzer";
 
 function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="light">
       <TooltipProvider>
         <EmailAnalyzer />
         <Toaster />

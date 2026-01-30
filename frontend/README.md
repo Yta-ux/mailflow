@@ -1,30 +1,58 @@
-# MailFlow Frontend
+<p align="center">
+    <a href="#-projeto">🖥 Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-tecnologias">👨‍💻 Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-executar-o-projeto">🖇 Execução do Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-licença">📃 Licença</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    <a href="#-observações">📌 Observações</a>
+</p>
 
-Interface moderna e responsiva para o sistema de triagem de emails MailFlow. Construída com foco em UX, performance e um design "Neon" marcante.
+<div style="display: flex; flex-direction: row; justify-content: center; align-items: center; flex-wrap: wrap" align="center">
+    <img width="700" style="border-radius: 5px" height="auto" alt="MailFlow Frontend Interface" src="../.github/home.png"/>
+</div>
 
-## 🛠 Stack
+## 🖥 Projeto
 
-- **Core:** React + Vite + TypeScript
-- **Estilização:** TailwindCSS + Shadcn/ui
-- **Ícones:** Lucide React
-- **HTTP Client:** Axios
+O **MailFlow Frontend** é a interface de usuário do sistema. Desenvolvida para ser intuitiva e visualmente impactante, utiliza um design system moderno com feedback visual em tempo real (steppers, toasts, animações). O foco é permitir que o usuário faça o upload ou input de texto e receba a análise da IA de forma clara.
 
-## 🚀 Setup
+## 👨‍💻 Tecnologias
 
-Certifique-se de estar na pasta `frontend`:
+As tecnologias usadas no frontend foram:
 
-```bash
-# Instalar dependências
-pnpm install
+- [Vite](https://vitejs.dev/)
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescript.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Shadcn/ui](https://ui.shadcn.com/) (Componentes de UI)
+- [Lucide React](https://lucide.dev/) (Ícones)
+- [Axios](https://axios-http.com/) (Comunicação com API)
 
-# Rodar em desenvolvimento
-pnpm dev
-```
+## 🖇 Executar o Projeto
 
-Acesse `http://localhost:3000`.
+Para executar o frontend, siga os passos:
 
-## 📸 Preview
+1. **Entre no diretório**
+   ```bash
+   cd frontend
+   ```
 
-Aqui você pode ver o fluxo de análise e o resultado com as badges neon.
+2. **Instale as dependências**
+   ```bash
+   pnpm install
+   # ou npm install
+   ```
 
-![Resultado da Análise](../.github/result.png)
+3. **Inicie a aplicação**
+   ```bash
+   pnpm dev
+   # ou npm run dev
+   ```
+   Acesse a aplicação em `http://localhost:3000`.
+
+## 📃 Licença
+
+Esse projeto possui licença MIT. Para mais detalhes consulte o arquivo [LICENSE](../LICENSE).
+
+## 📌 Observações
+
+- Certifique-se de que o backend esteja rodando na porta 8000 para que as requisições funcionem.
+- O design é responsivo e suporta modo claro/escuro.
