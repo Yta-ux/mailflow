@@ -130,9 +130,76 @@
   * {
     @apply border-border outline-ring/50;
   }
+  button {
+    cursor: pointer;
+  }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+.badge-neon-blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.15) 100%);
+  color: #2563eb;
+  border: 1px solid #3b82f6;
+  box-shadow: 
+    0 2px 4px rgba(59, 130, 246, 0.1),
+    inset 0 0 5px rgba(59, 130, 246, 0.1);
+}
+
+
+.dark .badge-neon-blue {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.25) 100%);
+  color: #60a5fa;
+  border: 1px solid #3b82f6;
+  box-shadow: 
+    0 0 15px rgba(59, 130, 246, 0.6),
+    inset 0 0 10px rgba(59, 130, 246, 0.3);
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+}
+
+
+.badge-neon-red {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.15) 100%);
+  color: #dc2626;
+  border: 1px solid #ef4444;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1), inset 0 0 5px rgba(239, 68, 68, 0.1);
+}
+.badge-neon-yellow {
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.1) 0%, rgba(202, 138, 4, 0.15) 100%);
+  color: #ca8a04;
+  border: 1px solid #eab308;
+  box-shadow: 0 2px 4px rgba(234, 179, 8, 0.1), inset 0 0 5px rgba(234, 179, 8, 0.1);
+}
+.badge-neon-green {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.15) 100%);
+  color: #16a34a;
+  border: 1px solid #22c55e;
+  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.1), inset 0 0 5px rgba(34, 197, 94, 0.1);
+}
+
+
+.dark .badge-neon-red {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.25) 100%);
+  color: #f87171;
+  border: 1px solid #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.6), inset 0 0 10px rgba(239, 68, 68, 0.3);
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+}
+.dark .badge-neon-yellow {
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(202, 138, 4, 0.25) 100%);
+  color: #facc15;
+  border: 1px solid #eab308;
+  box-shadow: 0 0 15px rgba(234, 179, 8, 0.6), inset 0 0 10px rgba(234, 179, 8, 0.3);
+  text-shadow: 0 0 8px rgba(234, 179, 8, 0.8);
+}
+.dark .badge-neon-green {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(22, 163, 74, 0.25) 100%);
+  color: #4ade80;
+  border: 1px solid #22c55e;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.6), inset 0 0 10px rgba(34, 197, 94, 0.3);
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
 }
 
 .gradient-mesh {

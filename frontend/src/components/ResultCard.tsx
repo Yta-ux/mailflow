@@ -1,4 +1,4 @@
-import { CheckCircle, XCircle, FileText, Lightbulb, MessageSquare, RotateCcw } from "lucide-react";
+import { CheckCircle, XCircle, FileText, Lightbulb, MessageSquare, RotateCcw, AlertCircle, AlertTriangle, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "./CopyButton";
@@ -11,13 +11,13 @@ interface ResultCardProps {
 }
 
 const priorityConfig = {
-  High: { color: "bg-destructive text-destructive-foreground", label: "Alta Prioridade", dot: "🔴" },
-  Medium: { color: "bg-warning text-warning-foreground", label: "Média Prioridade", dot: "🟡" },
-  Low: { color: "bg-success text-success-foreground", label: "Baixa Prioridade", dot: "🟢" },
+  High: { color: "badge-neon-red", label: "Alta Prioridade", icon: AlertCircle },
+  Medium: { color: "badge-neon-yellow", label: "Média Prioridade", icon: AlertTriangle },
+  Low: { color: "badge-neon-green", label: "Baixa Prioridade", icon: Info },
 };
 
 const categoryConfig = {
-  Productive: { color: "bg-success text-success-foreground", icon: CheckCircle, label: "Produtivo" },
+  Productive: { color: "badge-neon-blue", icon: CheckCircle, label: "Produtivo" },
   Unproductive: { color: "bg-muted text-muted-foreground", icon: XCircle, label: "Improdutivo" },
 };
 
@@ -25,6 +25,7 @@ export function ResultCard({ result, onReset }: ResultCardProps) {
   const priority = priorityConfig[result.priority];
   const category = categoryConfig[result.category];
   const CategoryIcon = category.icon;
+  const PriorityIcon = priority.icon;
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -33,8 +34,9 @@ export function ResultCard({ result, onReset }: ResultCardProps) {
           <CategoryIcon className="h-4 w-4" />
           {category.label}
         </Badge>
-        <Badge className={cn("px-4 py-2 text-sm", priority.color)}>
-          {priority.dot} {priority.label}
+        <Badge className={cn("flex items-center gap-2 px-4 py-2 text-sm", priority.color)}>
+          <PriorityIcon className="h-4 w-4" />
+          {priority.label}
         </Badge>
       </div>
 

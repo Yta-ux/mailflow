@@ -30,7 +30,7 @@ export function Stepper({ currentStep }: StepperProps) {
 
         return (
           <div key={step.id} className="flex items-center">
-            {/* Step */}
+
             <div className="flex items-center gap-2">
               <div
                 className={cn(
@@ -51,13 +51,13 @@ export function Stepper({ currentStep }: StepperProps) {
                   />
                 )}
 
-                {/* Pulse ring for current step */}
+
                 {isCurrent && (
                   <span className="absolute inset-0 rounded-lg border border-primary animate-ping opacity-30" />
                 )}
               </div>
 
-              {/* Label - hidden on mobile */}
+
               <span
                 className={cn(
                   "hidden lg:block text-sm font-medium transition-colors duration-300",
@@ -68,7 +68,7 @@ export function Stepper({ currentStep }: StepperProps) {
               </span>
             </div>
 
-            {/* Connector */}
+
             {index < steps.length - 1 && (
               <div className="relative mx-2 h-0.5 w-8 bg-muted/50 overflow-hidden rounded-full">
                 <div
