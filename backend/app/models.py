@@ -8,11 +8,11 @@ class TextInput(BaseModel):
 
 
 class EmailAnalysis(BaseModel):
-    categoria: Literal["Produtivo", "Improdutivo"]
-    prioridade: Literal["Alta", "Média", "Baixa"]
-    resumo: str
-    justificativa: str
-    resposta_sugerida: str
+    category: Literal["Productive", "Unproductive"]
+    priority: Literal["High", "Medium", "Low"]
+    summary: str
+    justification: str
+    suggested_reply: str
 
 
 class ProcessedTextResponse(BaseModel):
