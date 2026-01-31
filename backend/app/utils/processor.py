@@ -13,7 +13,10 @@ def download_nltk_resources():
         try:
             nltk.download(resource, quiet=True)
         except Exception:
-            nltk.download(resource)
+            try:
+                nltk.download(resource, force=True)
+            except Exception as e:
+                print(f"Failed to download {resource}: {e}")
 
 
 @dataclass
@@ -34,7 +37,7 @@ def clean_text(text: str) -> CleanedTextResult:
 
     try:
         tokens = word_tokenize(processed, language="portuguese")
-    except LookupError:
+    except Exception:
         tokens = processed.split()
 
     try:
