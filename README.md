@@ -70,3 +70,4 @@ Esse projeto possui licença MIT. Para mais detalhes consulte o arquivo [LICENSE
 
 - O projeto é dividido em `backend` e `frontend`. Cada pasta possui seu próprio `README.md` com detalhes técnicos específicos de implementação.
 - É necessário ter uma chave de API do Google Gemini para o funcionamento da IA.
+- ⚠️ **Aviso de Infraestrutura:** A API está hospedada no serviço **Render (Free Tier)**. Por isso, a primeira requisição pode levar até **50 segundos** (Cold Start) para acordar o servidor. As requisições subsequentes são rápidas.
