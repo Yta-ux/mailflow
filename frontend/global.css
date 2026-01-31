@@ -264,7 +264,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 4s linear infinite;
+  animation: shimmer 25s linear infinite;
 }
 
 .will-change-transform {
