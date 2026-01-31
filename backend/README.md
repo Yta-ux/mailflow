@@ -63,4 +63,4 @@ Esse projeto possui licença MIT. Para mais detalhes consulte o arquivo [LICENSE
 
 - A verificação de arquivos `.env` é crítica para o funcionamento da IA.
 - O endpoint `/process/file` aceita arquivos PDF e TXT.
-- ⚠️ **Aviso de Infraestrutura:** A API está hospedada no serviço **Render (Free Tier)**. Por isso, a primeira requisição pode levar até **50 segundos** (Cold Start) para acordar o servidor. As requisições subsequentes são rápidas.
+- ⚠️ **Aviso de Infraestrutura:** A API está hospedada no serviço **Render (Free Tier)**. Por isso, a primeira requisição pode levar até **50 segundos** para acordar o servidor. As requisições subsequentes são rápidas.
