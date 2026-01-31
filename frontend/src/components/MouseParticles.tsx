@@ -21,7 +21,6 @@ function lerp(start: number, end: number, factor: number): number {
 }
 
 export function MouseParticles() {
-  const [particles, setParticles] = useState<Particle[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,10 +28,14 @@ export function MouseParticles() {
   const prefersReducedMotion = typeof window !== "undefined" 
     && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  useEffect(() => {
-    if (prefersReducedMotion) return;
+  const [particles, setParticles] = useState<Particle[]>(() => {
+    if (typeof window === "undefined") return [];
+    
+    // Lazy initialization - runs only once
+    const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (isReduced) return [];
 
-    const initialParticles: Particle[] = Array.from({ length: 15 }, (_, i) => ({
+    return Array.from({ length: 15 }, (_, i) => ({
       id: i,
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
@@ -41,9 +44,7 @@ export function MouseParticles() {
       color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
       opacity: Math.random() * 0.4 + 0.3,
     }));
-
-    setParticles(initialParticles);
-  }, [prefersReducedMotion]);
+  });
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     mouseRef.current = { x: e.clientX, y: e.clientY };

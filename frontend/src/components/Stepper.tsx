@@ -73,7 +73,7 @@ export function Stepper({ currentStep }: StepperProps) {
               <div className="relative mx-2 h-0.5 w-8 bg-muted/50 overflow-hidden rounded-full">
                 <div
                   className={cn(
-                    "absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-accent transition-all duration-700 ease-out rounded-full",
+                    "absolute inset-y-0 left-0 bg-linear-to-r from-primary to-accent transition-all duration-700 ease-out rounded-full",
                     index < currentIndex ? "w-full" : "w-0"
                   )}
                 />

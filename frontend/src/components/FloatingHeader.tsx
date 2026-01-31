@@ -3,7 +3,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export function FloatingHeader() {
   return (
-    <header className="flex-shrink-0 px-4 py-4">
+    <header className="shrink-0 px-4 py-4">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">

@@ -76,7 +76,7 @@ export function EmailAnalyzer() {
         <div className="flex-1 flex flex-col min-h-0 px-4 pb-4">
           <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col min-h-0">
             
-            <div className="flex justify-center mb-4 flex-shrink-0">
+            <div className="flex justify-center mb-4 shrink-0">
               <Stepper currentStep={step} />
             </div>
 
@@ -87,7 +87,7 @@ export function EmailAnalyzer() {
                   <CardContent className="p-4 md:p-6 flex-1 flex flex-col min-h-0">
                     {step === "upload" && (
                       <div className="flex-1 flex flex-col space-y-4 animate-fade-in min-h-0">
-                        <div className="text-center flex-shrink-0">
+                        <div className="text-center shrink-0">
                           <h3 className="text-lg font-semibold text-foreground mb-1">
                             Insira seu email
                           </h3>
@@ -96,7 +96,7 @@ export function EmailAnalyzer() {
                           </p>
                         </div>
 
-                        <div className="flex justify-center flex-shrink-0">
+                        <div className="flex justify-center shrink-0">
                           <InputModeToggle mode={inputMode} onModeChange={setInputMode} />
                         </div>
 
@@ -112,7 +112,7 @@ export function EmailAnalyzer() {
                           onClick={handleAnalyze}
                           disabled={!canSubmit || isAnalyzing}
                           size="lg"
-                          className="w-full gradient-fluid hover-glow transition-all duration-300 disabled:opacity-50 text-white font-semibold py-4 flex-shrink-0"
+                          className="w-full gradient-fluid hover-glow transition-all duration-300 disabled:opacity-50 text-white font-semibold py-4 shrink-0"
                         >
                           <Sparkles className="mr-2 h-4 w-4" />
                           {isAnalyzing ? "Analisando..." : "Analisar Email"}

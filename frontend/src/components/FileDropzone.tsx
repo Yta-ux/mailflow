@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { toast } from "sonner";
 import { Upload, FileText, File as FileIconLucide, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ interface FileDropzoneProps {
 }
 
 const ACCEPTED_TYPES = [".txt", ".pdf"];
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 export function FileDropzone({ file, onFileChange }: FileDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
@@ -29,6 +31,19 @@ export function FileDropzone({ file, onFileChange }: FileDropzoneProps) {
     e.stopPropagation();
     setIsDragging(false);
   }, []);
+
+  const isValidFile = (file: File) => {
+    const extension = `.${file.name.split(".").pop()?.toLowerCase()}`;
+    if (!ACCEPTED_TYPES.includes(extension)) {
+      toast.error("Formato inválido. Apenas .txt e .pdf são aceitos.");
+      return false;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error("Arquivo muito grande. O limite é 5MB.");
+      return false;
+    }
+    return true;
+  };
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
@@ -54,23 +69,18 @@ export function FileDropzone({ file, onFileChange }: FileDropzoneProps) {
     [onFileChange]
   );
 
-  const isValidFile = (file: File) => {
-    const extension = `.${file.name.split(".").pop()?.toLowerCase()}`;
-    return ACCEPTED_TYPES.includes(extension);
-  };
 
-  const getFileIcon = (fileName: string) => {
-    if (fileName.endsWith(".pdf")) return FileIconLucide;
-    return FileText;
-  };
 
   if (file) {
-    const FileIcon = getFileIcon(file.name);
     return (
       <div className="flex items-center justify-between rounded-lg border-2 border-primary/30 bg-primary/5 p-4 animate-fade-in">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <FileIcon className="h-5 w-5 text-primary" />
+            {file.name.endsWith(".pdf") ? (
+              <FileIconLucide className="h-5 w-5 text-primary" />
+            ) : (
+              <FileText className="h-5 w-5 text-primary" />
+            )}
           </div>
           <div>
             <p className="font-medium text-foreground">{file.name}</p>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { MouseParticles } from "./MouseParticles";
 
 interface MeshOrb {
@@ -13,11 +13,8 @@ interface MeshOrb {
 }
 
 export function AnimatedBackground() {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  // Hydration fix - start true if window exists (SPA mode)
+  const [isClient] = useState(() => typeof window !== "undefined");
 
   const meshOrbs = useMemo<MeshOrb[]>(() => [
     { id: 0, x: 0, y: 0, size: 800, color: "primary", duration: 60, blur: 150, opacity: 0.12 },
@@ -75,8 +72,8 @@ export function AnimatedBackground() {
         }}
       />
 
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-primary/5 to-transparent blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gradient-to-tl from-accent/5 to-transparent blur-3xl" />
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-linear-to-br from-primary/5 to-transparent blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-linear-to-tl from-accent/5 to-transparent blur-3xl" />
 
       <MouseParticles />
     </div>

@@ -49,6 +49,12 @@ def parse_ai_error(error: RuntimeError) -> tuple[int, dict]:
         return 500, {"error_code": "AI_ERROR", "message": "Erro ao processar classificação."}
 
 
+MAX_FILE_SIZE_MB = 5
+MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024
+MAX_BODY_LENGTH = 1500
+MAX_FILE_EXTRACT_LENGTH = 30000
+
+
 @app.get("/")
 async def root() -> dict[str, str]:
     return {"status": "ok", "message": "Email Processing API v2.0.0"}
@@ -61,6 +67,12 @@ async def health() -> dict[str, str]:
 
 @app.post("/process/text", response_model=ProcessedTextResponse)
 async def process_text(input_data: TextInput) -> ProcessedTextResponse:
+    if len(input_data.text) > MAX_BODY_LENGTH:
+        raise HTTPException(
+            status_code=400,
+            detail={"error_code": "VALIDATION_ERROR", "message": f"Texto do email excede o limite de {MAX_BODY_LENGTH} caracteres (~250 palavras)."}
+        )
+
     nlp_result = clean_text(input_data.text)
 
     try:
@@ -74,10 +86,28 @@ async def process_text(input_data: TextInput) -> ProcessedTextResponse:
 
 @app.post("/process/file", response_model=ProcessedTextResponse)
 async def process_file(file: UploadFile = File(...)) -> ProcessedTextResponse:
+
+    file.file.seek(0, 2)
+    file_size = file.file.tell()
+    await file.seek(0)
+
+    if file_size > MAX_FILE_SIZE_BYTES:
+        raise HTTPException(
+            status_code=400,
+            detail={"error_code": "INVALID_FILE", "message": f"Arquivo excede o limite de {MAX_FILE_SIZE_MB}MB."}
+        )
+
     try:
         extracted_text = await process_uploaded_file(file)
     except ValueError as e:
         raise HTTPException(status_code=400, detail={"error_code": "INVALID_FILE", "message": str(e)})
+
+
+    if len(extracted_text) > MAX_FILE_EXTRACT_LENGTH:
+         raise HTTPException(
+            status_code=400,
+            detail={"error_code": "VALIDATION_ERROR", "message": f"Conteúdo do arquivo muito extenso (> {MAX_FILE_EXTRACT_LENGTH} caracteres)."}
+        )
 
     nlp_result = clean_text(extracted_text)
 
