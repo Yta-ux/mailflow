@@ -16,7 +16,7 @@ import { useAnalyzeText, useAnalyzeFile } from "@/hooks/use-email-analysis";
 import type { AnalysisStep, InputMode, EmailAnalysis } from "@/types/email";
 
 export function EmailAnalyzer() {
-  const [step, setStep] = useState<AnalysisStep>("analyzing");
+  const [step, setStep] = useState<AnalysisStep>("upload");
   const [inputMode, setInputMode] = useState<InputMode>("text");
   const [textContent, setTextContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
