@@ -10,13 +10,14 @@ import { InputModeToggle } from "./InputModeToggle";
 import { TextInput } from "./TextInput";
 import { FileDropzone } from "./FileDropzone";
 import { AnalyzingState } from "./AnalyzingState";
+import { ProcessingStatus } from "./ProcessingStatus";
 import { ResultCard } from "./ResultCard";
 import { AnimatedBackground } from "./AnimatedBackground";
 import { useAnalyzeText, useAnalyzeFile } from "@/hooks/use-email-analysis";
 import type { AnalysisStep, InputMode, EmailAnalysis } from "@/types/email";
 
 export function EmailAnalyzer() {
-  const [step, setStep] = useState<AnalysisStep>("upload");
+  const [step, setStep] = useState<AnalysisStep>("analyzing");
   const [inputMode, setInputMode] = useState<InputMode>("text");
   const [textContent, setTextContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -120,7 +121,7 @@ export function EmailAnalyzer() {
                       </div>
                     )}
 
-                    {step === "analyzing" && <AnalyzingState />}
+                    {step === "analyzing" && <ProcessingStatus />}
 
                     {step === "result" && result && (
                       <div className="flex-1 flex flex-col items-center justify-center text-center">
@@ -156,22 +157,7 @@ export function EmailAnalyzer() {
                       </div>
                     )}
 
-                    {step === "analyzing" && (
-                      <div className="flex-1 flex flex-col items-center justify-center animate-fade-in">
-                        <div className="relative mb-4">
-                          <div className="h-16 w-16 rounded-full gradient-fluid animate-spin-slow" />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="h-12 w-12 rounded-full bg-background/80 backdrop-blur-sm" />
-                          </div>
-                        </div>
-                        <h3 className="text-lg font-semibold text-foreground mb-1">
-                          Processando...
-                        </h3>
-                        <p className="text-xs text-muted-foreground">
-                          Nossa IA está analisando seu email
-                        </p>
-                      </div>
-                    )}
+                    {step === "analyzing" && <AnalyzingState />}
 
                     {step === "result" && result && (
                       <ResultCard result={result} onReset={handleReset} />
